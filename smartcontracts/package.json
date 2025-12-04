@@ -1,30 +1,36 @@
 {
   "name": "carin-smart-contracts",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Smart contracts for CarIn - Decentralized parking spot booking on Celo",
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
+    "test:escrow": "hardhat test test/PaymentEscrow*.test.js",
+    "test:coverage": "hardhat coverage",
     "deploy:alfajores": "hardhat run scripts/deploy.js --network alfajores",
     "deploy:celo": "hardhat run scripts/deploy.js --network celo",
-    "verify": "hardhat verify"
+    "deploy:escrow:alfajores": "hardhat run scripts/deploy-escrow.js --network alfajores",
+    "verify": "hardhat verify",
+    "lint": "solhint 'contracts/**/*.sol'"
   },
   "keywords": [
     "celo",
     "blockchain",
     "parking",
-    "smart-contracts"
+    "smart-contracts",
+    "escrow",
+    "payment"
   ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "hardhat": "^2.19.0"
+    "hardhat": "^2.19.0",
+    "solhint": "^4.0.0"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.0",
     "dotenv": "^16.3.1"
   }
 }
-
