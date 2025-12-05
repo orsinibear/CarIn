@@ -58,10 +58,41 @@ contract ParkingSpot is Ownable, ReentrancyGuard {
     uint256 public bookingCounter;
 
     // Events
-    event SpotListed(uint256 indexed spotId, address indexed owner, uint256 pricePerHour);
-    event BookingCreated(uint256 indexed bookingId, uint256 indexed spotId, address indexed user, uint256 startTime, uint256 endTime);
-    event BookingCancelled(uint256 indexed bookingId, address indexed user);
-    event SpotAvailabilityUpdated(uint256 indexed spotId, bool isAvailable);
+    event SpotListed(
+        uint256 indexed spotId,
+        address indexed owner,
+        string location,
+        uint256 pricePerHour,
+        uint256 createdAt
+    );
+    event BookingCreated(
+        uint256 indexed bookingId,
+        uint256 indexed spotId,
+        address indexed user,
+        uint256 startTime,
+        uint256 endTime,
+        uint256 totalPrice
+    );
+    event BookingCancelled(
+        uint256 indexed bookingId,
+        uint256 indexed spotId,
+        address indexed cancelledBy
+    );
+    event BookingCompleted(
+        uint256 indexed bookingId,
+        uint256 indexed spotId,
+        address indexed user
+    );
+    event SpotAvailabilityUpdated(
+        uint256 indexed spotId,
+        bool isAvailable,
+        address indexed updatedBy
+    );
+    event SpotOwnershipTransferred(
+        uint256 indexed spotId,
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     constructor() Ownable(msg.sender) {}
 
