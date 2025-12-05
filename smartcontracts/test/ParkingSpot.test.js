@@ -179,6 +179,83 @@ describe("ParkingSpot", function () {
     });
   });
 
+  describe("Availability Management", function () {
+    let spotId;
+
+    beforeEach(async function () {
+      spotId = 1;
+      await parkingSpot.connect(spotOwner).listSpot("123 Main St", ethers.parseEther("1"));
+    });
+
+    it("Should allow owner to update availability", async function () {
+      await expect(
+        parkingSpot.connect(spotOwner).updateSpotAvailability(spotId, false)
+      ).to.emit(parkingSpot, "SpotAvailabilityUpdated").withArgs(spotId, false, spotOwner.address);
+      
+      const spot = await parkingSpot.getSpot(spotId);
+      expect(spot.isAvailable).to.be.false;
+    });
+
+    it("Should revert when non-owner tries to update availability", async function () {
+      await expect(
+        parkingSpot.connect(renter).updateSpotAvailability(spotId, false)
+      ).to.be.revertedWithCustomError(parkingSpot, "NotSpotOwner");
+    });
+  });
+
+  describe("Ownership Verification and Transfer", function () {
+    let spotId;
+
+    beforeEach(async function () {
+      spotId = 1;
+      await parkingSpot.connect(spotOwner).listSpot("123 Main St", ethers.parseEther("1"));
+    });
+
+    it("Should verify spot ownership correctly", async function () {
+      expect(await parkingSpot.isSpotOwner(spotId, spotOwner.address)).to.be.true;
+      expect(await parkingSpot.isSpotOwner(spotId, renter.address)).to.be.false;
+    });
+
+    it("Should get spot owner", async function () {
+      expect(await parkingSpot.getSpotOwner(spotId)).to.equal(spotOwner.address);
+    });
+
+    it("Should transfer spot ownership", async function () {
+      await expect(
+        parkingSpot.connect(spotOwner).transferSpotOwnership(spotId, renter.address)
+      ).to.emit(parkingSpot, "SpotOwnershipTransferred").withArgs(spotId, spotOwner.address, renter.address);
+      
+      expect(await parkingSpot.getSpotOwner(spotId)).to.equal(renter.address);
+    });
+
+    it("Should revert when non-owner tries to transfer", async function () {
+      await expect(
+        parkingSpot.connect(renter).transferSpotOwnership(spotId, renter.address)
+      ).to.be.revertedWithCustomError(parkingSpot, "NotSpotOwner");
+    });
+  });
+
+  describe("Access Control", function () {
+    let spotId;
+
+    beforeEach(async function () {
+      spotId = 1;
+      await parkingSpot.connect(spotOwner).listSpot("123 Main St", ethers.parseEther("1"));
+    });
+
+    it("Should only allow spot owner to update availability", async function () {
+      await expect(
+        parkingSpot.connect(renter).updateSpotAvailability(spotId, false)
+      ).to.be.revertedWithCustomError(parkingSpot, "NotSpotOwner");
+    });
+
+    it("Should only allow spot owner to transfer ownership", async function () {
+      await expect(
+        parkingSpot.connect(renter).transferSpotOwnership(spotId, renter.address)
+      ).to.be.revertedWithCustomError(parkingSpot, "NotSpotOwner");
+    });
+  });
+
   // More tests will be added in subsequent commits
 });
 
