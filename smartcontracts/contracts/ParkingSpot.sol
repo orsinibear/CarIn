@@ -254,12 +254,29 @@ contract ParkingSpot is Ownable, ReentrancyGuard {
     }
 
     /**
-     * @dev Update spot availability
+     * @notice Update spot availability
+     * @dev Only the spot owner can update availability. Availability is also automatically
+     * managed based on active bookings, but owners can manually override.
+     * @param spotId The ID of the spot to update
+     * @param isAvailable The new availability status
      */
-    function updateSpotAvailability(uint256 spotId, bool isAvailable) external {
-        require(spots[spotId].owner == msg.sender, "Not the spot owner");
+    function updateSpotAvailability(uint256 spotId, bool isAvailable) external onlySpotOwner(spotId) nonReentrant {
+        // Check if there are any active bookings that would conflict
+        if (isAvailable) {
+            uint256[] memory bookingIds = spotBookings[spotId];
+            for (uint256 i = 0; i < bookingIds.length; i++) {
+                Booking memory booking = bookings[bookingIds[i]];
+                if (booking.isActive && !booking.isCancelled && !booking.isCompleted) {
+                    // If booking is currently active (between start and end time), don't allow making available
+                    if (block.timestamp >= booking.startTime && block.timestamp < booking.endTime) {
+                        revert SpotNotAvailable(); // There's an active booking
+                    }
+                }
+            }
+        }
+        
         spots[spotId].isAvailable = isAvailable;
-        emit SpotAvailabilityUpdated(spotId, isAvailable);
+        emit SpotAvailabilityUpdated(spotId, isAvailable, msg.sender);
     }
 
     /**
