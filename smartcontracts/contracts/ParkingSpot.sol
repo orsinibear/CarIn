@@ -53,6 +53,7 @@ contract ParkingSpot is Ownable, ReentrancyGuard {
     mapping(uint256 => Booking) public bookings;
     mapping(address => uint256[]) public userBookings;
     mapping(address => uint256[]) public ownerSpots;
+    mapping(uint256 => uint256[]) private spotBookings; // spotId => bookingIds
     
     uint256 public spotCounter;
     uint256 public bookingCounter;
@@ -95,6 +96,32 @@ contract ParkingSpot is Ownable, ReentrancyGuard {
     );
 
     constructor() Ownable(msg.sender) {}
+
+    /**
+     * @notice Check if a time slot is available for booking
+     * @param spotId The ID of the spot to check
+     * @param startTime The start time to check
+     * @param endTime The end time to check
+     * @return available True if the time slot is available
+     */
+    function isTimeSlotAvailable(
+        uint256 spotId,
+        uint256 startTime,
+        uint256 endTime
+    ) public view returns (bool) {
+        uint256[] memory bookingIds = spotBookings[spotId];
+        
+        for (uint256 i = 0; i < bookingIds.length; i++) {
+            Booking memory booking = bookings[bookingIds[i]];
+            if (booking.isActive && !booking.isCancelled && !booking.isCompleted) {
+                // Check for time overlap: bookings overlap if not (endTime <= booking.startTime || startTime >= booking.endTime)
+                if (!(endTime <= booking.startTime || startTime >= booking.endTime)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     /**
      * @dev List a new parking spot
