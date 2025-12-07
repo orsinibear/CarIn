@@ -137,7 +137,6 @@ contract Counter is Ownable, Pausable, ReentrancyGuard {
      * @dev Reset count to minimum value (owner only)
      */
     function reset() external onlyOwner whenNotPaused nonReentrant {
-        uint256 oldCount = _count;
         _count = minCount;
         _recordCountChange(minCount);
         
