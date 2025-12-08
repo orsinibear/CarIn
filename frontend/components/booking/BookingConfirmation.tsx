@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import QRCode from "qrcode.react";
+import QRCodeDisplay from "./QRCodeDisplay";
 
 interface Spot {
   id: string;
@@ -39,11 +39,12 @@ export default function BookingConfirmation({ bookingId, spot }: BookingConfirma
       </div>
 
       {/* QR Code */}
-      <div className="bg-gray-50 rounded-lg p-6 mb-6 inline-block">
-        <p className="text-sm text-gray-600 mb-4">Scan QR Code for Entry</p>
-        <div className="bg-white p-4 rounded-lg inline-block">
-          <QRCode value={qrValue} size={200} />
-        </div>
+      <div className="mb-6">
+        <QRCodeDisplay
+          bookingId={bookingId}
+          spotId={spot.id}
+          spotLocation={spot.location}
+        />
       </div>
 
       {/* Booking Details */}
