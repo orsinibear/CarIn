@@ -84,20 +84,6 @@ export default function MapView({ onSpotClick }: MapViewProps) {
     });
   }, [spots, filters, userLocation]);
 
-  // Prepare markers for clustering
-  const clusterMarkers = useMemo(() => {
-    return filteredSpots
-      .filter((spot) => spot.coordinates)
-      .map((spot) => ({
-        position: [spot.coordinates!.lat, spot.coordinates!.lng] as [number, number],
-        popup: (
-          <div className="spot-popup">
-            <ParkingSpotMarker spot={spot} onClick={onSpotClick} />
-          </div>
-        ),
-        onClick: () => onSpotClick?.(spot),
-      }));
-  }, [filteredSpots, onSpotClick]);
 
   const handleLocationFound = useCallback(
     (coordinates: Coordinates, address: string) => {
