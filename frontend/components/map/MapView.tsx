@@ -4,7 +4,7 @@
 
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import MapContainer from './MapContainer';
 import ParkingSpotMarker from './ParkingSpotMarker';
@@ -52,11 +52,11 @@ export default function MapView({ onSpotClick }: MapViewProps) {
   });
 
   // Update center when user location is available
-  useState(() => {
+  useEffect(() => {
     if (userLocation) {
       setCenter(userLocation);
     }
-  });
+  }, [userLocation]);
 
   // Filter spots based on criteria
   const filteredSpots = useMemo(() => {
@@ -140,12 +140,12 @@ export default function MapView({ onSpotClick }: MapViewProps) {
   return (
     <div className="relative w-full h-full">
       {/* Search Bar */}
-      <div className="absolute top-4 left-4 z-[1000] w-80">
+      <div className="absolute top-4 left-4 right-4 md:right-auto md:w-80 z-[1000]">
         <MapSearch onLocationFound={handleLocationFound} />
       </div>
 
       {/* Filters */}
-      <div className="absolute top-4 left-[340px] z-[1000] w-64">
+      <div className="absolute top-20 md:top-4 md:left-[340px] left-4 right-4 md:right-auto md:w-64 z-[1000]">
         <MapFilters onFilterChange={handleFilterChange} />
       </div>
 
