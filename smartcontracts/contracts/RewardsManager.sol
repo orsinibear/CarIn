@@ -170,7 +170,8 @@ contract RewardsManager is Ownable, ReentrancyGuard, Pausable {
         }
         
         // Validate spot exists
-        require(parkingSpot.spotCounter() >= spotId && spotId > 0, "RewardsManager: Invalid spot ID");
+        ParkingSpot.Spot memory spot = parkingSpot.getSpot(spotId);
+        require(spot.id != 0, "RewardsManager: Invalid spot ID");
         
         reportCounter++;
         reports[reportCounter] = Report({
@@ -221,7 +222,8 @@ contract RewardsManager is Ownable, ReentrancyGuard, Pausable {
     function createReferral(address referee, uint256 spotId) external nonReentrant whenNotPaused {
         require(referee != address(0), "RewardsManager: Invalid referee address");
         require(referee != msg.sender, "RewardsManager: Cannot refer yourself");
-        require(parkingSpot.spotCounter() >= spotId && spotId > 0, "RewardsManager: Invalid spot ID");
+        ParkingSpot.Spot memory spotCheck = parkingSpot.getSpot(spotId);
+        require(spotCheck.id != 0, "RewardsManager: Invalid spot ID");
         
         bytes32 referralHash = keccak256(abi.encodePacked(msg.sender, referee, spotId));
         require(referrals[referralHash].referrer == address(0), "RewardsManager: Referral already exists");
