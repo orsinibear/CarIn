@@ -1,10 +1,13 @@
-import { useState, useCallback } from "react";
+import { useAccount, useConnect, useDisconnect, useChainId, useBalance, useSwitchChain } from "wagmi";
+import { celoAlfajores, celo } from "viem/chains";
 
 export interface WalletBookingState {
   isConnected: boolean;
   address: string | null;
   chainId: number | null;
   balance: string | null;
+  isConnecting: boolean;
+  isDisconnecting: boolean;
 }
 
 export function useWalletBooking() {
