@@ -61,3 +61,4 @@ All components are prepared for:
 - PaymentEscrow contract
 - IPFS for images
 
+

@@ -131,3 +131,4 @@ Key configuration parameters:
 - Voting mechanism extensible for complex disputes
 - Oracle integration ready for external evidence verification
 
+
