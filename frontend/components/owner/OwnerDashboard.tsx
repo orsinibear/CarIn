@@ -5,13 +5,14 @@ import SpotsList from "./SpotsList";
 import EarningsSummary from "./EarningsSummary";
 import ListSpotForm from "./ListSpotForm";
 import Statistics from "./Statistics";
+import QRScanner from "./QRScanner";
 
 interface OwnerDashboardProps {
   address: string;
 }
 
 export default function OwnerDashboard({ address }: OwnerDashboardProps) {
-  const [activeTab, setActiveTab] = useState<"spots" | "list" | "earnings" | "statistics">("spots");
+  const [activeTab, setActiveTab] = useState<"spots" | "list" | "earnings" | "statistics" | "scan">("spots");
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleSpotCreated = () => {
@@ -32,11 +33,11 @@ export default function OwnerDashboard({ address }: OwnerDashboardProps) {
       </div>
 
       <div className="bg-white rounded-lg shadow mb-6">
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-200 overflow-x-auto">
           <nav className="flex -mb-px">
             <button
               onClick={() => setActiveTab("spots")}
-              className={`px-6 py-4 text-sm font-medium ${
+              className={`px-6 py-4 text-sm font-medium whitespace-nowrap ${
                 activeTab === "spots"
                   ? "border-b-2 border-blue-500 text-blue-600"
                   : "text-gray-500 hover:text-gray-700"
@@ -46,7 +47,7 @@ export default function OwnerDashboard({ address }: OwnerDashboardProps) {
             </button>
             <button
               onClick={() => setActiveTab("list")}
-              className={`px-6 py-4 text-sm font-medium ${
+              className={`px-6 py-4 text-sm font-medium whitespace-nowrap ${
                 activeTab === "list"
                   ? "border-b-2 border-blue-500 text-blue-600"
                   : "text-gray-500 hover:text-gray-700"
@@ -56,7 +57,7 @@ export default function OwnerDashboard({ address }: OwnerDashboardProps) {
             </button>
             <button
               onClick={() => setActiveTab("earnings")}
-              className={`px-6 py-4 text-sm font-medium ${
+              className={`px-6 py-4 text-sm font-medium whitespace-nowrap ${
                 activeTab === "earnings"
                   ? "border-b-2 border-blue-500 text-blue-600"
                   : "text-gray-500 hover:text-gray-700"
@@ -66,13 +67,23 @@ export default function OwnerDashboard({ address }: OwnerDashboardProps) {
             </button>
             <button
               onClick={() => setActiveTab("statistics")}
-              className={`px-6 py-4 text-sm font-medium ${
+              className={`px-6 py-4 text-sm font-medium whitespace-nowrap ${
                 activeTab === "statistics"
                   ? "border-b-2 border-blue-500 text-blue-600"
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
               Statistics
+            </button>
+            <button
+              onClick={() => setActiveTab("scan")}
+              className={`px-6 py-4 text-sm font-medium whitespace-nowrap ${
+                activeTab === "scan"
+                  ? "border-b-2 border-blue-500 text-blue-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              Scan QR
             </button>
           </nav>
         </div>
@@ -90,10 +101,21 @@ export default function OwnerDashboard({ address }: OwnerDashboardProps) {
           {activeTab === "statistics" && (
             <Statistics address={address} />
           )}
+          {activeTab === "scan" && (
+            <div className="flex flex-col items-center">
+                <h2 className="text-xl font-semibold mb-6">Verify Booking Access</h2>
+                <div className="w-full max-w-lg">
+                    <QRScanner 
+                        onScanSuccess={(data) => {
+                            console.log("Scanned:", data);
+                            // In a real app, verify spot ownership here
+                        }}
+                    />
+                </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
-
-
