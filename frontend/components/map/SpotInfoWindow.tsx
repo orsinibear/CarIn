@@ -55,3 +55,4 @@ export default function SpotInfoWindow({ spot }: SpotInfoWindowProps) {
   );
 }
 
+

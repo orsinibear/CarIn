@@ -139,3 +139,4 @@ export default function SpotsList({ address, refreshTrigger }: SpotsListProps) {
   );
 }
 
+

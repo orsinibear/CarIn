@@ -75,3 +75,4 @@ export function isBookingInFuture(date: Date, startTime: string): boolean {
   return bookingDateTime > now;
 }
 
+
