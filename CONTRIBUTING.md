@@ -1,6 +1,6 @@
 # Contributing to CarIn
 
-First off, thank you for considering contributing to CarIn! It's people like you that make CarIn such a great tool.
+First off, thank you for considering contributing to CarInt tool.
 
 ## Where do I go from here?
 
