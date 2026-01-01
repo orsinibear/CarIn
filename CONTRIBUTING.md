@@ -4,7 +4,7 @@ First off, thank you for considering contributing to CarInt tool.
 
 ## Where do I go from here?
 
-If you've noticed a bug or have a question, [search the issue tracker](https://github.com/search?q=repo%3Auser%2Frepo+is%3Aissue+label%3Abug) to see if someone else has already created a ticket. If not, go ahead and [make one](https://github.com/user/repo/issues/new)!
+If you've noticed a bug or have a question, [search the issue tracker](https://github.com/search?q=repo%3Auser%2Frepo+is%3Aissue+label%3Abug) to see if someone else has already created a ticket. no If not, go ahead and [make one](https://github.com/user/repo/issues/new)!
 
 ## Fork & create a branch
 
