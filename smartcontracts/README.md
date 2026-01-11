@@ -2,6 +2,8 @@
 
 Smart contracts for the CarIn blockchain.
 
+adding more functionality and updates on solidarity 
+
 ## Contracts
 
 - **ParkingSpot.sol** - Manages parking spot listings, bookings, and ownership
