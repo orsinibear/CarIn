@@ -1,6 +1,6 @@
 # CarIn Smart Contracts
 
-Smart contracts for the CarIn decentralized parking spot booking platform on Celo blockchain.
+Smart contracts for the CarIn blockchain.
 
 ## Contracts
 
