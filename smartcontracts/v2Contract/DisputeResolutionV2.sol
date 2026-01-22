@@ -461,7 +461,7 @@ contract DisputeResolutionV2 is Ownable, ReentrancyGuard, Pausable {
         return checkInRecords[bookingId];
     }
 
-    function updateConfig(
+    function updateConfigs(
         uint256 _maxResTime,
         uint256 _autoThreshold,
         uint256 _minVotes,
