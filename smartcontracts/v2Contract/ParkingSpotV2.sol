@@ -236,16 +236,5 @@ contract ParkingSpotV2 is Ownable, ReentrancyGuard {
         return ownerSpots[owner];
     }
 
-    function getUserBookings(address user) external view returns (uint256[] memory) {
-        return userBookings[user];
-    }
 
-    function isSpotOwner(uint256 spotId, address owner) external view returns (bool) {
-        return spots[spotId].owner == owner;
-    }
-
-    function getSpotOwner(uint256 spotId) external view returns (address) {
-        if (spots[spotId].owner == address(0)) revert SpotDoesNotExist();
-        return spots[spotId].owner;
-    }
 }
